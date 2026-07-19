@@ -1,0 +1,24 @@
+{
+  "name": "servanaut-backend",
+  "version": "2.0.0",
+  "description": "SERVANAUT V2 backend — founder intelligence API",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "fast-xml-parser": "^4.5.0",
+    "node-cron": "^3.0.3",
+    "openai": "^4.67.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
