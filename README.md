@@ -1,5 +1,7 @@
 # 🛰️ SERVANAUT V2 — Founder Intelligence OS
 
+**Live site:** https://servanaut.vercel.app
+
 An AI-powered founder intelligence dashboard: the one tab a startup founder opens every morning instead of twelve. SERVANAUT aggregates live news, competitor activity, market data, and research papers, runs everything through an AI analyst primed with *your* business context, and delivers a structured daily briefing, smart alerts, and an email digest.
 
 ## Features
