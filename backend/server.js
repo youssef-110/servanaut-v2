@@ -21,6 +21,8 @@ import settingsRouter from './routes/settings.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+// On Vercel the client IP arrives via one trusted proxy hop; the rate limiter needs it.
+if (process.env.VERCEL) app.set('trust proxy', 1);
 
 // CORS: allow the configured frontend plus local dev origins.
 const allowedOrigins = [
@@ -32,6 +34,7 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
+      // The deployed frontend proxies /api to this backend, so its calls arrive same-origin.
       if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
       callback(new Error(`Origin ${origin} not allowed by CORS`));
     },
@@ -79,7 +82,11 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`\n  SERVANAUT V2 backend listening on http://localhost:${PORT}`);
   console.log(`  Supabase: ${usingSupabase ? 'connected' : 'in-memory fallback'} | OpenAI: ${usingOpenAI ? 'enabled' : 'heuristic fallback'}\n`);
-  startScheduler();
-  // Warm the news cache + fire watchlist scan shortly after boot.
-  setTimeout(() => refreshNewsJob(), 3000);
+  // Serverless functions are frozen between requests, so cron jobs cannot run there.
+  // On Vercel the news cache fills on the first request instead.
+  if (!process.env.VERCEL) {
+    startScheduler();
+    // Warm the news cache + fire watchlist scan shortly after boot.
+    setTimeout(() => refreshNewsJob(), 3000);
+  }
 });
